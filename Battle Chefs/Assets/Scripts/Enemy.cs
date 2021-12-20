@@ -10,16 +10,19 @@ public class Enemy : MonoBehaviour
     public int damage = 25;
     public int points = 10;
 
-    public Shot Shot;
+    public PlayerCombat playerAttack;
+
+    //public Shot Shot;
     public GameObject deathEffect;
 
     private void Awake()
     {
+        playerAttack = FindObjectOfType<PlayerCombat>();
         //Shot = GameObject.Find("Shot").GetComponent<Shot>();
     }
     public void TakeDamage()
     {
-        health -= Shot.sDamage;
+        health -= playerAttack.playerAD;
 
         if(health <= 0)
         {
@@ -30,6 +33,7 @@ public class Enemy : MonoBehaviour
     void Die ()
     {
         Instantiate(deathEffect, transform.position, Quaternion.identity);
+        Debug.Log("Enemy Dead");
         Destroy(gameObject);
     }
 

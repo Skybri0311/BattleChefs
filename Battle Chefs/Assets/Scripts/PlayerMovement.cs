@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
     float horizontalMove = 0f;
     bool jump = false;
     bool crouch = false;
-    public bool attack;
 
 
 
@@ -23,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        animator.ResetTrigger("Attack");
 
         if (Input.GetButton("Jump"))
         {
@@ -40,15 +40,16 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetButtonDown("Attack"))
         {
-            animator.SetBool("Attack", true);
-            attack = true;
+            Attack();
         }
-        else if(Input.GetButtonUp("Attack"))
-        {
-            animator.SetBool("Attack", false);
-            attack = false;
-        }
+    
 
+
+    }
+
+    void Attack()
+    {
+        animator.SetTrigger("Attack");
     }
 
     public void OnLanding ()

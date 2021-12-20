@@ -9,14 +9,12 @@ public class CharacterController2D : MonoBehaviour
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
 	public float m_Damage;
 	public float m_Health;
-	public float m_AttackSpeed = 3;
 	[SerializeField] private bool m_AirControl = false;							// Whether or not a player can steer while jumping;
 	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
 	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
 	[SerializeField] private Collider2D m_MainCollider;                // A collider that will be disabled when crouching
 	[SerializeField] private Collider2D m_CrouchCollider;                   // A collider that will be enabled when crouching
-	[SerializeField] private Collider2D m_AttackCollider;
 	public PlayerMovement playerControl;
 
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
@@ -157,12 +155,7 @@ public class CharacterController2D : MonoBehaviour
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 		}
 
-        if (playerControl.attack == true)
-		{
-			StartCoroutine(Attack());
-		}
-		else
-			m_AttackCollider.enabled = false;
+
 	}
 
 
@@ -174,24 +167,6 @@ public class CharacterController2D : MonoBehaviour
 		transform.Rotate(0f, 180f, 0f);
 	}
 	#endregion
-
-	IEnumerator Attack()
-    {
-
-		m_AttackCollider.enabled = true;
-		yield return new WaitForSeconds(m_AttackSpeed);
-		m_AttackCollider.enabled = false;
-
-	}
-
-    private void OnTriggerEnter2D(Collider2D hitInfo)
-    {
-		Enemy enemy = hitInfo.GetComponent<Enemy>();
-		if(enemy != null)
-        {
-			Debug.Log("Hit Enemy");
-        }
-    }
 
 
 }
